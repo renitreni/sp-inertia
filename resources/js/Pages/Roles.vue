@@ -188,6 +188,7 @@
                     url: $this.data.roles_table_link,
                     type: 'POST'
                 },
+                "order": [[ 0, "desc" ]],
                 "columns": [
                     {"data": "id", "title": "ID"},
                     {

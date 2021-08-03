@@ -33,23 +33,15 @@
                     </div>
                     <div class="modal-body">
                         <div class="d-flex flex-column">
-                            <div>
+                            <div class="mb-3">
                                 <label>Name</label>
                                 <input class="form-control" v-model="overview.name">
-                            </div>
-                            <div>
-                                <label>New Password</label>
-                                <input class="form-control" v-model="overview.password">
-                            </div>
-                            <div>
-                                <label>Confirm Password</label>
-                                <input class="form-control" v-model="overview.password_confirmation">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary" @click="update">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -65,27 +57,61 @@
                     </div>
                     <div class="modal-body">
                         <div class="d-flex flex-column">
-                            <div>
+                            <div class="mb-2">
                                 <label>Name</label>
-                                <input class="form-control" v-model="overview.name">
+                                <input name="name" class="form-control" v-model="overview.name">
                             </div>
-                            <div>
+                            <div class="mb-2">
+                                <label>E-mail</label>
+                                <input type="email" name="email" class="form-control" v-model="overview.email">
+                            </div>
+                            <div class="mb-2">
                                 <label>New Password</label>
-                                <input class="form-control" v-model="overview.password">
+                                <input name="password" type="password" class="form-control" v-model="overview.password">
                             </div>
-                            <div>
+                            <div class="mb-2">
                                 <label>Confirm Password</label>
-                                <input class="form-control" v-model="overview.password_confirmation">
+                                <input name="password_confirmation" type="password" class="form-control"
+                                       v-model="overview.password_confirmation">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary" @click="save">Save changes</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Change Password Modal -->
+        <div id="user-cp-modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Change Password Modal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex flex-column">
+                            <div>
+                                <label>New Password</label>
+                                <input type="password" class="form-control" v-model="overview.password">
+                            </div>
+                            <div>
+                                <label>Confirm Password</label>
+                                <input type="password" class="form-control" v-model="overview.password_confirmation">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" @click="changePassword">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -96,16 +122,58 @@
         },
         data() {
             return {
-                overview: {},
+                overview: {
+                    name: '',
+                    email: '',
+                    password: '',
+                    password_confirmation: '',
+                },
                 dt: null,
                 user_edit_modal: null,
-                user_add_modal: null
+                user_add_modal: null,
+                user_cp_modal: null,
             };
         },
         methods: {
-          showAddUser(){
-              this.user_add_modal.show()
-          }
+            showAddUser() {
+                this.user_add_modal.show();
+                this.overview = {
+                    name: '',
+                    email: '',
+                    password: '',
+                    password_confirmation: '',
+                };
+            },
+            changePassword() {
+                var $this = this;
+                $this.user_cp_modal.hide();
+                axios.post($this.data.users_cp_link, $this.overview).then(function () {
+                    alertify.success('<label class="text-white">Success!</label>');
+                    $this.dt.draw();
+                }).catch(function (error) {
+                    catchError(error.response.data.errors);
+                });
+            },
+            update() {
+                var $this = this;
+                $this.user_edit_modal.hide();
+                axios.post($this.data.users_update_link, $this.overview).then(function () {
+                    alertify.success('<label class="text-white">Success!</label>');
+                    $this.dt.draw();
+                }).catch(function (error) {
+                    catchError(error.response.data.errors);
+                });
+            },
+            save() {
+                var $this = this;
+                $this.user_add_modal.hide();
+                axios.post($this.data.users_store_link, $this.overview).then(function () {
+                    alertify.success('<label class="text-white">Success!</label>');
+                    $this.dt.draw();
+                }).catch(function (error) {
+                    catchError(error.response.data.errors);
+                });
+            }
         },
         mounted() {
             var $this = this;
@@ -118,24 +186,55 @@
                 keyboard: false
             });
 
+            $this.user_cp_modal = new bootstrap.Modal(document.getElementById('user-cp-modal'), {
+                keyboard: false
+            });
+
             $this.dt = $('#users-table').DataTable({
                 serverSide: true,
                 ajax: {
                     url: $this.data.users_table_link,
                     type: 'POST'
                 },
+                "order": [[ 0, "desc" ]],
                 "columns": [
-                    {"data": "id", "title": "ID"},
+                    {
+                        "data": function (value) {
+                            return '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">\n' +
+                                '  <button type="button" class="btn btn-edit btn-primary"><i class="fas fa-pencil-alt"></i></button>\n' +
+                                '  <button type="button" class="btn btn-cp btn-warning text-white"><i class="fas fa-key"></i></button>\n' +
+                                '  <button type="button" class="btn btn-danger text-white"><i class="fas fa-trash"></i></button>\n' +
+                                '</div>'
+                        }, "name": "id", "title": "ID"
+                    },
                     {"data": "name", "title": "Name"},
                     {"data": "email", "title": "E-mail"},
                     {"data": "created_at", "title": "Created At"},
                     {"data": "updated_at", "title": "Created At"},
                 ],
                 drawCallback: function (settings) {
-                    $('#users-table tbody tr').on('click', function () {
-                        user_edit_modal.show();
-                        $this.overview = $this.dt.row($(this)).data();
+                    $('.btn-edit').on('click', function () {
+                        $this.overview = {
+                            name: '',
+                            email: '',
+                            password: '',
+                            password_confirmation: '',
+                        };
+                        $this.user_edit_modal.show();
+                        $this.overview = $this.dt.row($(this).parent().parent()).data();
                     });
+
+                    $('.btn-cp').on('click', function () {
+                        $this.overview = {
+                            name: '',
+                            email: '',
+                            password: '',
+                            password_confirmation: '',
+                        };
+                        $this.user_cp_modal.show();
+                        $this.overview = $this.dt.row($(this).parent().parent()).data();
+                    });
+
                 }
             });
         }

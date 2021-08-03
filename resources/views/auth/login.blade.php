@@ -17,10 +17,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="m-sm-4">
-                                    <div class="text-center">
-                                        <img src="https://i.pravatar.cc/300"
-                                             class="img-fluid rounded-circle" width="132" height="132"/>
-                                    </div>
+{{--                                    <div class="text-center">--}}
+{{--                                        <img src="https://i.pravatar.cc/300"--}}
+{{--                                             class="img-fluid rounded-circle" width="132" height="132"/>--}}
+{{--                                    </div>--}}
                                     <form method="POST" action="{{ route('login') }}">
                                         @csrf
                                         <div class="mb-3">

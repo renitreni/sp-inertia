@@ -15,3 +15,16 @@ createInertiaApp({
 
 InertiaProgress.init();
 
+window.catchError = function(errors) {
+    console.log(errors);
+    var message = '';
+    $.each(errors, function (index, item) {
+        $.each(item, function (index, item) {
+            message += item + '\n';
+        })
+    });
+    alertify.alert(message, function () {
+        alertify.error('Please try again.');
+    });
+}
+

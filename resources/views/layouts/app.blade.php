@@ -10,7 +10,9 @@
     <link href="{{ asset('vendor/adminkit/dist/css/app.css') }}" rel="stylesheet">
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet"/>
     <link href="{{ asset('vendor/datatables/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('vendor/alertifyjs/css/alertify.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('vendor/alertifyjs/css/alertify.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/alertifyjs/css/themes/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/alertifyjs/css/themes/default.css') }}" rel="stylesheet">
 
 </head>
 <body>
