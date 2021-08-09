@@ -156,7 +156,7 @@
                 </a>
 
                 <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                    @if((new \App\Models\Files())->getProfilePic(auth()->id())->path)
+                    @if(isset((new \App\Models\Files())->getProfilePic(auth()->id())->path) && (new \App\Models\Files())->getProfilePic(auth()->id())->path)
                         <img src="{{ (new \App\Models\Files())->getProfilePic(auth()->id())->path }}"
                              class="avatar img-fluid rounded me-1"
                              alt="Charles Hall"/>
