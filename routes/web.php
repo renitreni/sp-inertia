@@ -13,14 +13,14 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/', [DashboardController::class, 'index'])->name('home');
     });
     Route::prefix('users')->group(function () {
-        Route::get('/', [UsersController::class, 'index'])->name('users');
+        Route::get('/', [UsersController::class, 'index'])->name('users')->middleware(['can:users']);
         Route::post('/table', [UsersController::class, 'usersTable'])->name('users.table');
         Route::post('/update', [UsersController::class, 'update'])->name('users.update');
         Route::post('/store', [UsersController::class, 'store'])->name('users.store');
         Route::post('/cp', [UsersController::class, 'changePassword'])->name('users.cp');
     });
     Route::prefix('roles')->group(function () {
-        Route::get('/', [RolesController::class, 'index'])->name('roles');
+        Route::get('/', [RolesController::class, 'index'])->name('roles')->middleware(['can:roles']);
         Route::post('/store', [RolesController::class, 'store'])->name('roles.store');
         Route::post('/update', [RolesController::class, 'update'])->name('roles.update');
         Route::post('/destroy', [RolesController::class, 'destroy'])->name('roles.delete');
