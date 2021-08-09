@@ -15,20 +15,26 @@
                 </a>
             </li>
 
-            <li class="sidebar-item">
-                <a href="#manage-users" data-bs-toggle="collapse"
-                   class="sidebar-link show collapsed" aria-expanded="false"
-                >
-                    <i class="align-middle" data-feather="users"></i> <span class="align-middle">Manage Users</span>
-                </a>
-                <ul id="manage-users" class="sidebar-dropdown list-unstyled collapse"
-                    data-bs-parent="#sidebar">
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('roles') }}">Roles</a></li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('users') }}">Users</a></li>
-                </ul>
-            </li>
+            @can('manage-users')
+                <li class="sidebar-item">
+                    <a href="#manage-users" data-bs-toggle="collapse"
+                       class="sidebar-link show collapsed" aria-expanded="false"
+                    >
+                        <i class="align-middle" data-feather="users"></i> <span class="align-middle">Manage Users</span>
+                    </a>
+                    <ul id="manage-users" class="sidebar-dropdown list-unstyled collapse"
+                        data-bs-parent="#sidebar">
+                        @can('roles')
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="{{ route('roles') }}">Roles</a></li>
+                        @endcan
+                        @can('users')
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="{{ route('users') }}">Users</a></li>
+                        @endcan
+                    </ul>
+                </li>
+            @endcan
         </ul>
 
     </div>
