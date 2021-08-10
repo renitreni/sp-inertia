@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
-use App\Models\User;
 use App\Models\Files;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 
 class SettingsPrivacyController extends Controller
@@ -17,7 +17,7 @@ class SettingsPrivacyController extends Controller
         return Inertia::render('SettingsPrivacy', [
             'data' => [
                 'upload_photo_link' => route('settings-privacy.up'),
-                'profile_pic_link'  => $files->getProfilePic(auth()->id())->path,
+                'profile_pic_link'  => $files->getProfilePic(auth()->id())->path ?? '',
             ],
         ]);
     }
@@ -25,6 +25,11 @@ class SettingsPrivacyController extends Controller
     public function uploadPhoto(Request $request, Files $files)
     {
         $path = $request->file('avatar')->store('profile_pics');
+
+        $path_storage = Files::query()->where('uploaded_by', auth()->id())->first()->path;
+        if($path_storage) {
+            Storage::delete($path_storage);
+        }
 
         Files::updateOrCreate(
             ['uploaded_by' => auth()->id()],

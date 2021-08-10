@@ -18,6 +18,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::post('/update', [UsersController::class, 'update'])->name('users.update');
         Route::post('/store', [UsersController::class, 'store'])->name('users.store');
         Route::post('/cp', [UsersController::class, 'changePassword'])->name('users.cp');
+        Route::post('/destroy', [UsersController::class, 'destroy'])->name('users.destroy');
     });
     Route::prefix('roles')->group(function () {
         Route::get('/', [RolesController::class, 'index'])->name('roles')->middleware(['can:roles']);

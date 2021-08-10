@@ -28,11 +28,11 @@ class DatabaseSeeder extends Seeder
             'name'  => 'user',
             'title' => 'User',
         ]);
-        $bouncer->assign('user')->to($user_model);
+        $bouncer->assign($user)->to($user_model);
 
         // Initialized Admin
         $admin_model = User::create([
-            'name'     => 'user',
+            'name'     => 'admin',
             'email'    => 'admin@site.com',
             'password' => Hash::make('password'),
         ]);
@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             'name'  => 'admin',
             'title' => 'Administrator',
         ]);
-        $bouncer->assign('admin')->to($admin_model);
+        $bouncer->assign($admin)->to($admin_model);
 
         $manage_users = $bouncer->ability()->firstOrCreate([
             'name'  => 'manage-users',

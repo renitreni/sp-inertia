@@ -164,7 +164,7 @@
                         <img src="https://avatars.dicebear.com/api/jdenticon/.svg" class="avatar img-fluid rounded me-1"
                              alt="Charles Hall"/>
                     @endif
-                    <span class="text-dark">Charles Hall</span>
+                    <span class="text-dark">{{ auth()->user()->name }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
                     {{--                    <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Profile</a>--}}
