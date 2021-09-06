@@ -6,20 +6,9 @@
         <div class="navbar-collapse collapse">
             <ul class="navbar-nav navbar-align">
                 <li class="nav-item dropdown">
-                    <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
-                        <i class="align-middle" data-feather="settings"></i>
-                    </a>
-
                     <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                        <!--                        @if(isset((new \App\Models\Files())->getProfilePic(auth()->id())->path) && (new \App\Models\Files())->getProfilePic(auth()->id())->path)-->
-                        <!--                        <img src="{{ (new \App\Models\Files())->getProfilePic(auth()->id())->path }}"-->
-                        <!--                             class="avatar img-fluid rounded me-1"-->
-                        <!--                             alt="Charles Hall"/>-->
-                        <!--                        @else-->
-                        <img src="https://avatars.dicebear.com/api/jdenticon/.svg" class="avatar img-fluid rounded me-1"
-                             alt="Charles Hall"/>
-                        <!--                        @endif-->
-                        <!--                        <span class="text-dark">{{ auth()->user()->name }}</span>-->
+                        <img :src="top_bar.profile_pic" class="avatar img-fluid rounded me-1"/>
+                        {{ top_bar.name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <a class="dropdown-item" :href="top_bar.settings_privacy">
@@ -29,10 +18,7 @@
                             <i class="align-middle me-1" data-feather="help-circle"></i> Help Center
                         </a>
                         <div class="dropdown-divider"></div>
-                        <!--                        <form method="POST" action="{{ route('logout') }}">-->
-                        <!--                            @csrf-->
-                                                    <a class="dropdown-item" href="/logout">Log out</a>
-                        <!--                        </form>-->
+                        <a class="dropdown-item" href="/logout">Log out</a>
                     </div>
                 </li>
             </ul>

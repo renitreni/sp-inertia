@@ -26,9 +26,10 @@ class SettingsPrivacyController extends Controller
     {
         $path = $request->file('avatar')->store('profile_pics');
 
-        $path_storage = Files::query()->where('uploaded_by', auth()->id())->first()->path;
+        $path_storage = Files::query()->where('uploaded_by', auth()->id())->first();
+
         if($path_storage) {
-            Storage::delete($path_storage);
+            Storage::delete($path_storage->path);
         }
 
         Files::updateOrCreate(
