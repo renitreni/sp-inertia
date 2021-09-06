@@ -4651,6 +4651,14 @@ readers do not read off random characters that represent icons */
   box-shadow: 1px 1px 20px -10px #000 !important;
 }
 
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
 /*!
  * Bootstrap v5.0.2 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors

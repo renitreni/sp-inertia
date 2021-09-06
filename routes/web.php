@@ -5,10 +5,18 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\SettingsPrivacyController;
+use App\Http\Controllers\DefaultsController;
 
 Auth::routes();
 
 Route::group(['middleware' => ['web', 'auth']], function () {
+    Route::get('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+
+    Route::prefix('admin')->group(function () {
+        Route::post('/sidebar', [DefaultsController::class, 'sidebar'])->name('sidebar');
+        Route::post('/footer', [DefaultsController::class, 'footer'])->name('footer');
+        Route::post('/top-bar', [DefaultsController::class, 'topBar'])->name('top-bar');
+    });
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('home');
     });

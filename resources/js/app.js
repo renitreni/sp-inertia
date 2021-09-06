@@ -4,6 +4,7 @@ import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/inertia-vue3'
 import { InertiaProgress } from '@inertiajs/progress'
 
+
 createInertiaApp({
     resolve: name => import(`./Pages/${name}`),
     setup({ el, app, props, plugin }) {
@@ -26,5 +27,4 @@ window.catchError = function(errors) {
     alertify.alert(message, function () {
         alertify.error('Please try again.');
     });
-}
-
+};
