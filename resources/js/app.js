@@ -28,3 +28,9 @@ window.catchError = function(errors) {
         alertify.error('Please try again.');
     });
 };
+
+window.select2Binder = function (id, value, label) {
+    $(id).append('<option value="' + value + '">' + label + '</option>');
+    $(id).val(value);
+    $(id).trigger('change');
+};
